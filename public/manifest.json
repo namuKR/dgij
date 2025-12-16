@@ -1,0 +1,21 @@
+{
+    "name": "도개인재 ME",
+    "short_name": "도개인재",
+    "description": "학습 관리 플랫폼 도개인재 ME",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/dgijfavicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/dgijfavicon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
