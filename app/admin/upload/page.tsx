@@ -321,11 +321,18 @@ export default function AdminUploadPage() {
     };
 
     // Shared File Processor (Paste + Drop)
-    const processFile = async (file: File) => {
-        if (file.type === 'application/pdf') {
+    const processFile = async (file: File, target: 'exam' | 'explanation' | 'auto' = 'auto') => {
+        // 1. Explicit Targets
+        if (target === 'exam') {
+            if (file.type !== 'application/pdf') {
+                alert('시험지는 PDF 파일이어야 합니다.');
+                return;
+            }
             setExamFile(file);
             setDetectedPages(0);
             setPageValidationPassed(false);
+
+            // Re-use validation logic
             if (subject && EXPECTED_PAGES[subject as keyof typeof EXPECTED_PAGES]) {
                 const pages = await countPdfPages(file);
                 setDetectedPages(pages);
@@ -337,6 +344,20 @@ export default function AdminUploadPage() {
                 setPageValidationPassed(true);
             }
             alert(`시험지 파일이 업로드 되었습니다: ${file.name}`);
+            return;
+        }
+
+        if (target === 'explanation') {
+            // Optional: check file type if needed, but explanation can be PDF or others? Assuming default is PDF/Any
+            setExplanationFile(file);
+            alert(`해설지 파일이 업로드 되었습니다: ${file.name}`);
+            return;
+        }
+
+        // 2. Auto-Detection (Default behavior)
+        if (file.type === 'application/pdf') {
+            // Default PDF -> Exam
+            processFile(file, 'exam');
 
         } else if (file.type.startsWith('image/')) {
             setAnswerImg(file);
@@ -461,7 +482,17 @@ export default function AdminUploadPage() {
                             {/* Exam File */}
                             <div className="space-y-2">
                                 <Label>시험지 PDF (필수)</Label>
-                                <div className="border border-dashed rounded-lg p-3 bg-muted/20">
+                                <div
+                                    className="border border-dashed rounded-lg p-3 bg-muted/20 hover:bg-muted/40 transition-colors"
+                                    onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                                            processFile(e.dataTransfer.files[0], 'exam');
+                                        }
+                                    }}
+                                >
                                     <Input type="file" onChange={handleExamFileChange} accept=".pdf" />
                                     <div className="flex justify-between items-center mt-1">
                                         <span className="text-xs text-muted-foreground">
@@ -493,7 +524,19 @@ export default function AdminUploadPage() {
 
                             <div className="space-y-2">
                                 <Label>해설지 파일 (선택)</Label>
-                                <Input type="file" onChange={e => setExplanationFile(e.target.files?.[0] || null)} />
+                                <div
+                                    className="border border-dashed rounded-lg p-3 bg-muted/20 hover:bg-muted/40 transition-colors"
+                                    onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                                            processFile(e.dataTransfer.files[0], 'explanation');
+                                        }
+                                    }}
+                                >
+                                    <Input type="file" onChange={e => setExplanationFile(e.target.files?.[0] || null)} />
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
