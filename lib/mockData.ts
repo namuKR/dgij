@@ -43,6 +43,9 @@ export const USERS: User[] = [
   { id: '1', name: '김학생', role: 'student', password: '123' },
   { id: '2', name: '이선생', role: 'teacher' },
   { id: '3', name: '관리자', role: 'admin', password: 'admin' },
+  { id: '7', name: '김승기', role: 'student', password: '77777' },
+  { id: '8', name: '김서현', role: 'student', password: '88888' },
+  { id: '9', name: '이동현', role: 'student', password: '99999' },
 ];
 
 export const R2_PUBLIC_URL = "https://pub-c45c0bdedae9472188e6d86b016bf763.r2.dev";
