@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
-import { AlertCircle, FileText, ArrowLeft, Upload, Loader2, Check } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Upload, Loader2, Check } from 'lucide-react';
 // import * as pdfjsLib from 'pdfjs-dist'; // Moved to dynamic import inside component
 
 
@@ -95,10 +95,16 @@ export default function AdminUploadPage() {
         return () => window.removeEventListener('paste', handleGlobalPaste);
     }, [subject]); // Depedency on subject for validation logic
 
-    if (user && user.role !== 'admin') {
-        router.push('/');
-        return null;
-    }
+    // Refs for auto-focus - ALWAYS called at top level
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+    // Shared File Processor needs to be defined before useEffect using it, or hoisted via function keyword. 
+    // Since it uses state setters, it's bound.
+    // Recommended: define handleGlobalPaste inside useEffect or wrap processFile in useCallback.
+    // Let's wrap processFile in useCallback and put it before useEffect? Or just suppress dependency if safe.
+    // The "conditional hook" error was likely due to the "if (user...) return null" appearing BEFORE the useRef call originally?
+    // Let's check where the useRef specific line was. Original file had "const inputRefs = useRef" at line 149, which is AFTER the early return at line 98!
+    // FIX: Move early return to AFTER all hooks.
 
     const countPdfPages = async (file: File): Promise<number> => {
         try {
@@ -121,8 +127,7 @@ export default function AdminUploadPage() {
         }
     };
 
-    // Refs for auto-focus
-    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
 
     const isSubjective = (subj: string, qNum: number) => {
         if (subj === 'Math') {

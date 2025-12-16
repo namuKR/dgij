@@ -13,8 +13,6 @@ const MockTestContext = createContext<MockTestContextType | undefined>(undefined
 
 export function MockTestProvider({ children }: { children: React.ReactNode }) {
     const [mockTests, setMockTests] = useState<MockTest[]>([]);
-    const [loading, setLoading] = useState(true);
-
     // Load from Cloudflare R2 on mount
     useEffect(() => {
         const fetchTests = async () => {
@@ -31,8 +29,6 @@ export function MockTestProvider({ children }: { children: React.ReactNode }) {
             } catch (error) {
                 console.error("Failed to fetch mock tests:", error);
                 setMockTests(MOCK_TESTS); // Fallback to local mock data
-            } finally {
-                setLoading(false);
             }
         };
 

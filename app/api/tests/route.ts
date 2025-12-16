@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand, ListObjectsV2Command, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+// import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 // Initialize S3 Client (R2)
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;
@@ -18,7 +18,7 @@ const S3 = new S3Client({
     },
 });
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
         // 1. List objects in the "tests/" folder
         const listCommand = new ListObjectsV2Command({

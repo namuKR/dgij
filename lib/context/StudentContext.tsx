@@ -91,6 +91,7 @@ export function StudentProvider({ children }: { children: React.ReactNode }) {
         } else {
             setStudentData(null);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     const refreshStudentData = async () => {
@@ -146,7 +147,6 @@ export function StudentProvider({ children }: { children: React.ReactNode }) {
                     schedule[dayItemIndex] = dayItem;
                 }
             } else {
-                // @ts-ignore
                 schedule.push({ day: day as any, tests: [testName] });
             }
             return { ...prev, personalSchedule: schedule };

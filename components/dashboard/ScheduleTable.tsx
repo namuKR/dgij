@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CalendarDays, Plus, X, Globe, User } from 'lucide-react';
+import { CalendarDays, Plus, Globe } from 'lucide-react';
 import { useStudent } from '@/lib/context/StudentContext';
 import { useMockTest } from '@/lib/context/MockTestContext';
 import { useGlobalSchedule } from '@/lib/context/GlobalScheduleContext';

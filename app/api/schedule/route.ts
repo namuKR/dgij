@@ -21,7 +21,7 @@ const S3 = new S3Client({
 
 const SCHEDULE_KEY = 'global_schedule.json';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
         const command = new GetObjectCommand({
             Bucket: R2_BUCKET_NAME,

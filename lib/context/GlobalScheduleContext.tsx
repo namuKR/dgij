@@ -122,7 +122,7 @@ export function GlobalScheduleProvider({ children }: { children: React.ReactNode
                 newSchedule[dayIndex].tests.push(testName);
             }
         } else {
-            // @ts-ignore
+            // @ts-expect-error: Legacy format support
             newSchedule.push({ day, tests: [testName] });
         }
 

@@ -5,14 +5,14 @@ import { useMockTest } from "@/lib/context/MockTestContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"; // Search input
-import { Download, CheckCircle, Search, Folder, ChevronRight, ArrowLeft, FolderOpen } from "lucide-react";
+import { CheckCircle, Search, Folder, ChevronRight, ArrowLeft, FolderOpen } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useStudent } from '@/lib/context/StudentContext';
 import { MockTest } from '@/lib/mockData';
 import { GradeInputModal } from "@/components/dashboard/GradeInputModal";
 import { ResultComparisonModal } from "@/components/dashboard/ResultComparisonModal";
 import { TestDetailModal } from "@/components/dashboard/TestDetailModal";
-import { cn, getTestThumbnail } from "@/lib/utils";
+import { getTestThumbnail } from "@/lib/utils";
 
 export default function ContentsPage() {
     const SUBJECT_MAP: Record<string, string> = {
@@ -145,7 +145,6 @@ export default function ContentsPage() {
             {tests.map((test) => {
                 const thumbnail = getTestThumbnail(test.series || test.fullName);
                 const subjectKo = getSubjectKo(test.subject);
-                const publisherDisplay = test.publisher === '시대인재' ? '시대인재' : test.publisher;
                 const scanTypeDisplay = getScanTypeDisplay(test.scanType);
                 const isApplied = studentData?.appliedTests?.includes(test.id);
 
